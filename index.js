@@ -10,6 +10,6 @@ const port =  3000;
 app.get('/',(req,res)=>{        
         res.send("Connection success");
     });
-    app.listen( port,()=>{
+app.listen( port,()=>{
         console.log('Connecting to the server on port http://localhost:',port);
     });
