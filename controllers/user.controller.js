@@ -1,10 +1,12 @@
 const UserService = require('../services/user.service');
-
+const { v4: uuidv4 } = require('uuid');
+const UserModel = require('../models/user.model');
 // Registeration
-exports.register = (req,res)=>{
+exports.register = async (req,res)=>{
     try{
     const {email,password,firstName,lastName} = req.body;
-      UserService.registerUser(email,password,firstName,lastName);
+    const _id = uuidv4(); // To generate unique userId
+      await UserService.registerUser(_id,email,password,firstName,lastName);
      res.setHeader('Content-Type', 'application/json');
     res.json({status:true,success:"user registered success"});
     }catch(e){
@@ -16,9 +18,11 @@ exports.register = (req,res)=>{
 
 exports.select = async (req,res)=>{
     try {
-        const  toSelect =  await UserService.getUser();
-        res.json(toSelect);
+        const email  = req.params.email;
+        const  toSelect =  await UserService.getUser(email);
+        // res.json(user);
+        res.status(200).json(toSelect);
     } catch (error) {
-        throw error;
+        res.status(500).json({ error: error.message });
     }
 }

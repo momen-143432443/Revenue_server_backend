@@ -8,6 +8,11 @@ const { Schema } = mongoose;
 
 //Create a user schema
 const userSchema = new Schema({
+  _id:{
+     type:String,
+     required: true,
+    //  unique: true,
+    },
     email:{
       type:String,
       lowercase:true,
