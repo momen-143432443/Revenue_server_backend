@@ -1,8 +1,8 @@
 const ProductService = require("../services/product.service");
 exports.insertProductToDatabase = async (req,res)=>{
   try {
-    const{userId,userEmail,items}=req.body;
-    await ProductService.insertProductInfo(userId,userEmail,items);
+    const{userId,userEmail,items,totalPrice}=req.body;
+    await ProductService.insertProductInfo(userId,userEmail,items,totalPrice);
     res.setHeader('Content-Type', 'application/json');
     res.json({status:true,success:"Purchase sucessful"});
   } catch (error) {
@@ -21,4 +21,14 @@ exports.getOrderStatusFromDatabase = async(req, res)=>{
   } catch (error) {
     res.status(500).json({ status: false, message: 'Server error' });
   }
+}
+
+exports.FetchAllItemsMostOfTrinding = async (req,res)=>{
+    try {
+        const result = await ProductService.showAllItemsMostOfTrindingInApp();
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+    res.status(500).send('DB Error');
+    }
 }

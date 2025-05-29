@@ -11,6 +11,7 @@ const productInfo = new Schema({
     itemModel:String,
     itemPrice:String,
     itemImageAddress:String,
+    colorsAvailable:String,
     itemColor:{
         type:String,
         required: true
@@ -35,6 +36,7 @@ const cartSchema = new Schema({
     _id:String,
     email:String,
     items :[productInfo],
+    totalPrice:Number,
     createdAt : {
         type:Date,
         default:Date.now
