@@ -32,3 +32,42 @@ exports.FetchAllItemsMostOfTrinding = async (req,res)=>{
     res.status(500).send('DB Error');
     }
 }
+
+exports.FetchAllItemsShoes = async(req, res)=>{
+  try {
+    const result = await ProductService.showAllItemsShoesInApp();
+    res.json(result);
+  } catch (error) {
+     console.error(error);
+    res.status(500).send('DB Error');
+  }
+}
+
+exports.FetchAllItemsFeatureItem = async(req, res)=>{
+  try {
+    const result = await ProductService.showAllFeatureItemInApp();
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('DB Error');
+  }
+}
+
+exports.FetchAllNewItems = async(req, res)=>{
+try {
+    const result =await  ProductService.showNewItemsInApp(req, res);
+  res.json(result);
+} catch (error) {
+    console.error(error);
+    res.status(500).send('DB Error');
+  }
+}
+
+exports.FetchSpecificItemFromSearchBar = async (req, res)=>{
+  try {
+    await ProductService.searchControllerInApp(req, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('DB Error');
+  }
+}
