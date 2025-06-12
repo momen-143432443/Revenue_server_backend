@@ -44,7 +44,7 @@ exports.showAllItemsMostOfTrindingInApp = async()=>{
     let conn;
     try {
          conn = await oracle.getConnection(dbConfig);
-       const res= await conn.execute(`SELECT ITEMID, ITEMNAME, ITEMMODEL, ITEMPRICE, ITEM_COLOR_AVAILABLE FROM mosttrindingitems`,
+       const res= await conn.execute(`SELECT ITEMID, ITEMNAME, ITEMMODEL, ITEMPRICE, ITEM_COLOR_AVAILABLE, ITEM_SIZE FROM mosttrindingitems`,
         [],
         {outFormat: oracle.OUT_FORMAT_OBJECT});
     // Convert image BLOB to base64 manually if needed (more robust):
@@ -56,12 +56,14 @@ exports.showAllItemsMostOfTrindingInApp = async()=>{
             const picBuffer = picRes.rows?.[0]?.ITEMPICTURE || null;
             
             // console.log("Color array from DB:", row.ITEM_COLOR_AVAILABLE);
+                // console.log("mosttrindingitems item size:", row.ITEMID,row.ITEMNAME,row.ITEM_SIZE);
             return {
                 itemId: row.ITEMID,
           itemName: row.ITEMNAME ,
           itemModel: row.ITEMMODEL,
           itemPrice: row.ITEMPRICE,
           colorsAvailable: row.ITEM_COLOR_AVAILABLE,
+          itemSize:row.ITEM_SIZE,
           itemImageAddress: picBuffer
             ? picBuffer.toString("base64")
             : '',
@@ -88,7 +90,7 @@ exports.showAllItemsShoesInApp = async()=>{
     let conn;
     try {
         conn = await oracle.getConnection(dbConfig);
-        const res = await conn.execute('select ITEMID, ITEMNAME, ITEMMODEL, ITEMPRICE, ITEM_COLOR_AVAILABLE FROM shoesProduct',
+        const res = await conn.execute('select ITEMID, ITEMNAME, ITEMMODEL, ITEMPRICE, ITEM_COLOR_AVAILABLE, ITEM_SIZE FROM shoesProduct',
             [],
             {outFormat: oracle.OUT_FORMAT_OBJECT, fetchInfo: { ITEMPICTURE : { type: oracle.BUFFER }}});
             const processedRows = await Promise.all(res.rows.map(async (row)=>{
@@ -105,6 +107,7 @@ exports.showAllItemsShoesInApp = async()=>{
           itemModel: row.ITEMMODEL,
           itemPrice: row.ITEMPRICE,
           colorsAvailable: row.ITEM_COLOR_AVAILABLE,
+          itemSize:row.ITEM_SIZE,
           itemImageAddress: picBuffer
             ? picBuffer.toString("base64")
             : '',};
@@ -128,7 +131,7 @@ exports.showAllFeatureItemInApp = async()=>{
 let conn;
     try {
 conn = await oracle.getConnection(dbConfig);
-const res = await conn.execute('select ITEMID, ITEMNAME, ITEMMODEL, ITEMPRICE, ITEM_COLOR_AVAILABLE FROM newFeatureItems',
+const res = await conn.execute('select ITEMID, ITEMNAME, ITEMMODEL, ITEMPRICE, ITEM_COLOR_AVAILABLE, ITEM_SIZE FROM newFeatureItems',
             [],
             {outFormat: oracle.OUT_FORMAT_OBJECT, fetchInfo: { ITEMPICTURE : { type: oracle.BUFFER }}});
             const processedRows = await Promise.all(res.rows.map(async (row)=>{
@@ -145,6 +148,7 @@ const res = await conn.execute('select ITEMID, ITEMNAME, ITEMMODEL, ITEMPRICE, I
           itemModel: row.ITEMMODEL,
           itemPrice: row.ITEMPRICE,
           colorsAvailable: row.ITEM_COLOR_AVAILABLE,
+          itemSize:row.ITEM_SIZE,
           itemImageAddress: picBuffer
             ? picBuffer.toString("base64")
             : '',};
@@ -171,7 +175,7 @@ exports.showNewItemsInApp = async ()=>{
     try {
 
         conn = await oracle.getConnection(dbConfig);
-        const res =  await conn.execute('select ITEMID, ITEMNAME, ITEMMODEL, ITEMPRICE, ITEM_COLOR_AVAILABLE FROM NewItems',
+        const res =  await conn.execute('select ITEMID, ITEMNAME, ITEMMODEL, ITEMPRICE, ITEM_COLOR_AVAILABLE, ITEM_SIZE FROM NewItems',
             [],
             {outFormat: oracle.OUT_FORMAT_OBJECT, fetchInfo: { ITEMPICTURE : { type: oracle.BUFFER }}});
 
@@ -187,6 +191,7 @@ exports.showNewItemsInApp = async ()=>{
           itemModel: row.ITEMMODEL,
           itemPrice: row.ITEMPRICE,
           colorsAvailable: row.ITEM_COLOR_AVAILABLE,
+          itemSize: row.ITEM_SIZE,
           itemImageAddress: picBuffer
             ? picBuffer.toString("base64")
             : '',};
